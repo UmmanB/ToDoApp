@@ -16,38 +16,46 @@ struct ProfileView: View
     {
         NavigationView
         {
-            VStack
+            VStack(spacing: 0)
             {
-                if let user = viewModel.user
+                HeaderViewTwo(title: "Profile", subtitle: "Details")
+                    .padding(.top, 0)
+                    .zIndex(1)
+                
+                Spacer(minLength: 0)
+                
+                VStack
                 {
-                    profile(user: user)
+                    if let user = viewModel.user
+                    {
+                        profile(user: user)
+                    } else {
+                        Text("Loading Profile...")
+                            .font(.system(size: 20))
+                            .fontWeight(.medium)
+                            .padding(.horizontal, 60)
+                            .foregroundColor(.gray)
+                            .multilineTextAlignment(.center)
+                    }
                 }
-                else
-                {
-                    Text("Loading Profile...")
-                        .font(.system(size: 20))
-                        .fontWeight(.medium)
-                        .padding(.horizontal, 60)
-                        .foregroundColor(.gray)
-                        .multilineTextAlignment(.center)
-                }
+                .padding(.top, 20)
+                
+                Spacer(minLength: 60)
             }
-            .navigationTitle("Profile")
+            .navigationBarHidden(true)
             .alert(isPresented: $showingLogOutAlert)
             {
                 Alert(
                     title: Text("Log Out"),
                     message: Text("Are you sure you want to log out?"),
-                    primaryButton: .destructive(Text("Log Out"))
-                    {
+                    primaryButton: .destructive(Text("Log Out")) {
                         viewModel.logOut()
                     },
                     secondaryButton: .cancel()
                 )
             }
         }
-        .onAppear
-        {
+        .onAppear {
             viewModel.fetchUser()
         }
     }
@@ -55,7 +63,7 @@ struct ProfileView: View
     @ViewBuilder
     func profile(user: User) -> some View
     {
-        VStack(spacing: 20)
+        VStack
         {
             ZStack
             {
@@ -74,21 +82,23 @@ struct ProfileView: View
             .background(Circle().fill(Color.white))
             .shadow(color: .gray.opacity(0.4), radius: 10, x: 0, y: 5)
             
-            VStack(alignment: .leading, spacing: 10) {
+            VStack(alignment: .leading, spacing: 10)
+            {
                 profileRow(title: "Name:", value: user.name)
                 profileRow(title: "Email:", value: user.email)
-                profileRow(title: "Member Since:", value: "\(Date(timeIntervalSince1970: user.joined).formatted(date: .abbreviated, time: .shortened))")
+                profileRow(title: "Member Since:", value: "\(Date(timeIntervalSince1970: user.joined).formatted(date: .abbreviated, time: .omitted))")
             }
-            .padding(.horizontal, 20)
+            .padding(.top, 20)
             
             TLButton(title: "Log Out",
-                     background: LinearGradient(gradient: Gradient(colors: [Color.purple, Color.indigo]),
+                     background: LinearGradient(gradient: Gradient(colors: [Color.indigo, Color.purple]),
                                                 startPoint: .topLeading,
                                                 endPoint: .bottomTrailing))
             {
                 showingLogOutAlert = true
             }
             .shadow(color: .gray.opacity(0.4), radius: 10, x: 0, y: 5)
+            .padding(.top, 5)
         }
         .padding()
     }
@@ -96,14 +106,15 @@ struct ProfileView: View
     @ViewBuilder
     func profileRow(title: String, value: String) -> some View
     {
-        HStack
+        HStack(spacing: 10)
         {
             Text(title)
                 .fontWeight(.bold)
-                .frame(width: 150, alignment: .leading)
+                .frame(alignment: .leading)
             Text(value)
                 .lineLimit(1)
                 .truncationMode(.tail)
+            Spacer()
         }
         .padding()
         .background(Color.white)
@@ -113,6 +124,7 @@ struct ProfileView: View
     }
 }
 
-#Preview {
+#Preview
+{
     ProfileView()
 }

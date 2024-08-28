@@ -18,7 +18,6 @@ struct ToDoListItemView: View
     {
         HStack
         {
-            
             Button
             {
                 viewModel.toggleIsDone(item: item)
@@ -31,23 +30,22 @@ struct ToDoListItemView: View
             }
             .padding(.trailing, 10)
             
-            VStack(alignment: .leading) {
-                           Text(item.title)
-                               .font(.body)
-                               .foregroundColor(item.isDone ? Color.gray : Color.primary) // Change text color when checked
-                               .strikethroughStyle(isDone: item.isDone, isLate: isLate) // Apply the custom strikethrough style
-                           
+            VStack(alignment: .leading)
+            {
+                Text(item.title)
+                    .font(.body)
+                    .foregroundColor(item.isDone ? Color.gray : Color.primary)
+                    .strikethroughStyle(isDone: item.isDone, isLate: isLate)
                 
                 Text("\(Date(timeIntervalSince1970: item.dueDate).formatted(date: .abbreviated, time: .shortened))")
                     .font(.footnote)
                     .foregroundColor(Color(.secondaryLabel))
             }
+            
             Spacer()
+            Image(systemName: "arrow.backward.circle.fill")
+                .font(.system(size: 24))
+                .foregroundColor(.purple)
         }
     }
 }
-
-//#Preview
-//{
-//    ToDoListItemView(item: ToDoListItem(id: "123", title: "Get milk", dueDate: Date().timeIntervalSince1970, createdDate: Date().timeIntervalSince1970, isDone: true))
-//}

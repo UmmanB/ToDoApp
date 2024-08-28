@@ -17,13 +17,11 @@ struct LoginView: View
         {
             VStack
             {
-                // Header
                 HeaderView(title: "To do App", subtitle: "get things ", subtitleTwo: "DONE.", angle: 15,
                            background: LinearGradient(gradient: Gradient(colors: [Color.purple, Color.indigo]),
                                                       startPoint: .topLeading,
                                                       endPoint: .bottomTrailing))
                 
-                // Login Form
                 Spacer() .frame(height: 30)
                 VStack(spacing: 20) {
                     TextField("Email address", text: $viewModel.email)
@@ -50,7 +48,6 @@ struct LoginView: View
                 }
                 .padding()
                 
-                // Create Account
                 VStack
                 {
                     Text("Don't have an account yet?")
