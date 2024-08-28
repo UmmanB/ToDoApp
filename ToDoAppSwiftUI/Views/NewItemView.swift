@@ -16,7 +16,6 @@ struct NewItemView: View
     {
         VStack
         {
-            // Title
             VStack(alignment: .leading, spacing: 8)
             {
                 Text("Title")
@@ -28,12 +27,11 @@ struct NewItemView: View
                     .background(.white)
                     .cornerRadius(20)
                     .shadow(color: .gray.opacity(0.4), radius: 10, x: 0, y: 5)
-                    
+                
             }
             .padding(.horizontal, 30)
             .padding(.top, 20)
-
-            // Due Date
+            
             VStack(alignment: .leading, spacing: 8)
             {
                 Text("Due Date")
@@ -53,7 +51,6 @@ struct NewItemView: View
             .padding(.horizontal, 30)
             .padding(.top, 10)
             
-            // Button
             TLButton(title: "Save",
                      background: LinearGradient(gradient: Gradient(colors: [Color.purple, Color.indigo]),
                                                 startPoint: .leading,

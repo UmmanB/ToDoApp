@@ -16,13 +16,11 @@ struct RegisterView: View
     {
         VStack
         {
-            // Header
             HeaderView(title: "Register", subtitle: "Start organizing ", subtitleTwo: "TODOS", angle: -15,
                        background: LinearGradient(gradient: Gradient(colors: [Color.indigo, Color.purple]),
                                                   startPoint: .bottomLeading,
                                                   endPoint: .topTrailing))
             
-            // Register Form
             Spacer().frame(height: 30)
             VStack(spacing: 20)
             {
@@ -56,7 +54,6 @@ struct RegisterView: View
                 }
                 .shadow(color: .gray.opacity(0.4), radius: 10, x: 0, y: 5)
                 
-                // Custom Back Button
                 Button(action: {
                     dismiss()
                 }) {

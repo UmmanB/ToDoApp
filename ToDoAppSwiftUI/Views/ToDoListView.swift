@@ -30,41 +30,7 @@ struct ToDoListView: View
             GeometryReader { geometry in
                 VStack(spacing: -44)
                 {
-                    ZStack(alignment: .top)
-                    {
-                        LinearGradient(
-                            gradient: Gradient(colors: [Color.indigo, Color.purple]),
-                            startPoint: .leading,
-                            endPoint: .trailing
-                        )
-                        .frame(height: 130)
-                        .mask(
-                            VStack
-                            {
-                                RoundedRectangle(cornerRadius: 80, style: .continuous)
-                                    .frame(height: 160)
-                                    .frame(width: 450)
-                                    .offset(y: 0)
-                            })
-                        .ignoresSafeArea(edges: .top)
-                        
-                        HStack(alignment: .center, spacing: 10)
-                        {
-                            Text("To Do")
-                                .font(.system(size: 35))
-                                .fontWeight(.medium)
-                                .foregroundColor(.white)
-                                .offset(y: -54)
-                            
-                            Text("List")
-                                .font(.system(size: 40))
-                                .fontWeight(.bold)
-                                .foregroundColor(.white)
-                                .offset(y: -55)
-                        }
-                        .padding(.top, 60)
-                        .padding(.horizontal)
-                    }
+                    HeaderViewTwo(title: "To Do", subtitle: "List")
                     
                     if items.isEmpty
                     {
@@ -248,7 +214,7 @@ struct ToDoListView: View
                 (date, items.sorted { $0.dueDate < $1.dueDate })
             }
     }
-
+    
     private var dateFormatter: DateFormatter
     {
         let formatter = DateFormatter()
