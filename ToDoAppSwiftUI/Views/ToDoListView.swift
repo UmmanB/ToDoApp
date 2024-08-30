@@ -28,52 +28,34 @@ struct ToDoListView: View
         NavigationView
         {
             GeometryReader { geometry in
-                VStack(spacing: -44)
+                ZStack
                 {
-                    HeaderViewTwo(title: "To Do", subtitle: "List")
-                    
-                    if items.isEmpty
+                    VStack(spacing: -44)
                     {
-                        Text("No tasks here yet. Tap the plus button to add a new to-do")
-                            .font(.system(size: 20))
-                            .fontWeight(.medium)
-                            .padding(.horizontal, 60)
-                            .foregroundColor(.gray)
-                            .multilineTextAlignment(.center)
-                            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
-                    } else
-                    {
-                        List
+                        HeaderViewTwo(title: "To Do", subtitle: "List")
+                        
+                        if items.isEmpty
                         {
-                            if !filteredLateItems().isEmpty
+                            Text("No tasks here yet. Tap the plus button to add a new to-do")
+                                .font(.system(size: 20))
+                                .fontWeight(.medium)
+                                .padding(.horizontal, 60)
+                                .foregroundColor(.gray)
+                                .multilineTextAlignment(.center)
+                                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+                        } else
+                        {
+                            List
                             {
-                                Section(header: sectionHeaderView(title: "Late", backgroundColor: .white, textColor: .red))
+                                if !filteredLateItems().isEmpty
                                 {
-                                    ForEach(filteredLateItems()) { item in
-                                        ToDoListItemView(item: item, isLate: true)
-                                            .listRowBackground(Color.white)
-                                            .swipeActions
-                                        {
-                                            Button("Delete")
+                                    Section(header: sectionHeaderView(title: "Late", backgroundColor: .white, textColor: .red))
+                                    {
+                                        ForEach(filteredLateItems()) { item in
+                                            ToDoListItemView(item: item, isLate: true)
+                                                .listRowBackground(Color.white)
+                                                .swipeActions
                                             {
-                                                itemToDelete = item
-                                                showAlert = true
-                                            }
-                                            .tint(.red)
-                                        }
-                                        .listRowSeparator(.hidden)
-                                    }
-                                }
-                            }
-                            
-                            if !filteredTodayItems().isEmpty
-                            {
-                                Section(header: sectionHeaderView(title: "Today", backgroundColor: .white, textColor: .black))
-                                {
-                                    ForEach(filteredTodayItems()) { item in
-                                        ToDoListItemView(item: item, isLate: false)
-                                            .listRowBackground(Color.white)
-                                            .swipeActions {
                                                 Button("Delete")
                                                 {
                                                     itemToDelete = item
@@ -82,84 +64,111 @@ struct ToDoListView: View
                                                 .tint(.red)
                                             }
                                             .listRowSeparator(.hidden)
-                                    }
-                                }
-                            }
-                            
-                            if !filteredTomorrowItems().isEmpty
-                            {
-                                Section(header: sectionHeaderView(title: "Tomorrow", backgroundColor: .white, textColor: .black))
-                                {
-                                    ForEach(filteredTomorrowItems()) { item in
-                                        ToDoListItemView(item: item, isLate: false)
-                                            .listRowBackground(Color.white)
-                                            .swipeActions
-                                        {
-                                            Button("Delete")
-                                            {
-                                                itemToDelete = item
-                                                showAlert = true
-                                            }
-                                            .tint(.red)
                                         }
-                                        .listRowSeparator(.hidden)
-                                    }
-                                }
-                            }
-                            
-                            ForEach(filteredSpecificDateItems(), id: \.key) { (date, items) in
-                                Section(header: sectionHeaderView(title: dateFormatter.string(from: date), backgroundColor: .white, textColor: .black))
-                                {
-                                    ForEach(items) { item in
-                                        ToDoListItemView(item: item, isLate: false)
-                                            .listRowBackground(Color.white)
-                                            .swipeActions
-                                        {
-                                            Button("Delete")
-                                            {
-                                                itemToDelete = item
-                                                showAlert = true
-                                            }
-                                            .tint(.red)
-                                        }
-                                        .listRowSeparator(.hidden)
                                     }
                                 }
                                 
+                                if !filteredTodayItems().isEmpty
+                                {
+                                    Section(header: sectionHeaderView(title: "Today", backgroundColor: .white, textColor: .black))
+                                    {
+                                        ForEach(filteredTodayItems()) { item in
+                                            ToDoListItemView(item: item, isLate: false)
+                                                .listRowBackground(Color.white)
+                                                .swipeActions {
+                                                    Button("Delete")
+                                                    {
+                                                        itemToDelete = item
+                                                        showAlert = true
+                                                    }
+                                                    .tint(.red)
+                                                }
+                                                .listRowSeparator(.hidden)
+                                        }
+                                    }
+                                }
+                                
+                                if !filteredTomorrowItems().isEmpty
+                                {
+                                    Section(header: sectionHeaderView(title: "Tomorrow", backgroundColor: .white, textColor: .black))
+                                    {
+                                        ForEach(filteredTomorrowItems()) { item in
+                                            ToDoListItemView(item: item, isLate: false)
+                                                .listRowBackground(Color.white)
+                                                .swipeActions
+                                            {
+                                                Button("Delete")
+                                                {
+                                                    itemToDelete = item
+                                                    showAlert = true
+                                                }
+                                                .tint(.red)
+                                            }
+                                            .listRowSeparator(.hidden)
+                                        }
+                                    }
+                                }
+                                
+                                ForEach(filteredSpecificDateItems(), id: \.key) { (date, items) in
+                                    Section(header: sectionHeaderView(title: dateFormatter.string(from: date), backgroundColor: .white, textColor: .black))
+                                    {
+                                        ForEach(items) { item in
+                                            ToDoListItemView(item: item, isLate: false)
+                                                .listRowBackground(Color.white)
+                                                .swipeActions
+                                            {
+                                                Button("Delete")
+                                                {
+                                                    itemToDelete = item
+                                                    showAlert = true
+                                                }
+                                                .tint(.red)
+                                            }
+                                            .listRowSeparator(.hidden)
+                                        }
+                                    }
+                                    
+                                }
+                                
                             }
+                            .listRowSeparator(.hidden)
+                            .listStyle(PlainListStyle())
+                            .scrollIndicators(.hidden)
+                            .background(Color.clear)
                             
                         }
-                        .listRowSeparator(.hidden)
-                        .listStyle(PlainListStyle())
-                        .scrollIndicators(.hidden)
-                        .background(Color.clear)
-                        .padding(.bottom, 60)
                     }
+                    .navigationBarHidden(true)
                 }
-                .navigationBarHidden(true)
-            }
-            .alert(isPresented: $showAlert)
-            {
-                Alert(
-                    title: Text("Confirm Deletion"),
-                    message: Text("Are you sure you want to delete this item?"),
-                    primaryButton: .destructive(Text("Delete"))
-                    {
-                        if let itemToDelete = itemToDelete
+                .alert(isPresented: $showAlert)
+                {
+                    Alert(
+                        title: Text("Confirm Deletion"),
+                        message: Text("Are you sure you want to delete this item?"),
+                        primaryButton: .destructive(Text("Delete"))
                         {
-                            viewModel.delete(id: itemToDelete.id)
-                        }
-                    },
-                    secondaryButton: .cancel()
-                )
+                            if let itemToDelete = itemToDelete
+                            {
+                                viewModel.delete(id: itemToDelete.id)
+                            }
+                        },
+                        secondaryButton: .cancel()
+                    )
+                }
+                .onAppear
+                {
+                    startTimer()
+                }
+                .onDisappear
+                {
+                    stopTimer()
+                }
             }
-            .onAppear
+            .safeAreaInset(edge: .bottom)
             {
-                startTimer()
-            }
-            .onDisappear
-            {
-                stopTimer()
+                Rectangle()
+                    .foregroundStyle(.clear)
+                    .frame(maxWidth: .infinity, maxHeight: 60)
             }
         }
     }
